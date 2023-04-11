@@ -1,13 +1,13 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-
+NNTPSERVER='news.eternal-september.org' && export NNTPSERVER
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
-
+export PATH="~/gitcl/lolcat-master/bin:~/gitcl/nyancat/src:$PATH:~/Downloads/FileZilla3/bin"
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -18,7 +18,14 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
-
+mkcd ()
+{
+  mkdir -p -- "$1" && cd -P -- "$1"
+}
+alias lt='du -sh * | sort -h'
+alias hg='history|grep'
+alias left='ls -t -1'
+alias cpv='rsync -ah --info=progress2'
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
@@ -58,7 +65,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;2m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;202m\]\h\[$(tput sgr0)\] : \[$(tput sgr0)\]\[\033[38;5;38m\]\d\[$(tput sgr0)\] [\[$(tput sgr0)\]\[\033[38;5;201m\]\A\[$(tput sgr0)\]] \n[\[$(tput sgr0)\]\[\033[38;5;51m\]\w\[$(tput sgr0)\]] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;129m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+    PS1="\n\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;2m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;202m\]\h \[$(tput sgr0)\] : \[$(tput sgr0)\]\[\033[38;5;38m\]\d\[$(tput sgr0)\] [\[$(tput sgr0)\]\[\033[38;5;201m\]\A\[$(tput sgr0)\]] \n[\[$(tput sgr0)\]\[\033[38;5;51m\]\w\[$(tput sgr0)\]] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;129m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -92,7 +99,8 @@ fi
 #alias ll='ls -l'
 #alias la='ls -A'
 #alias l='ls -CF'
-
+alias qemu="qemu-system-x86_64"
+alias i="sudo apt install"
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -112,4 +120,17 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+alias gpt="python3 ~/chatgpt-cli/chatgpt.py"
 
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/werdl/.profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export PATH=":/home/werdl/node/node-v18.14.2-linux-x64/bin/:$PATH"
+. "$HOME/.cargo/env"
+alias grbpl='yt-dlp --yes-playlist https://www.youtube.com/playlist?list=PL7v3ZECc5evyLFqytu5Ajxk'
+alias pip=pip3
+export PATH=/home/werdl/node/node-v18.14.2-linux-x64/bin/:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/werdl/gitcl/lolcat-master/bin:/home/werdl/gitcl/nyancat/src:/home/werdl/node/node-v18.14.2-linux-x64/bin/:/home/linuxbrew/.linuxbrew/bin:/home/werdl/gitcl/lolcat-master/bin:/home/werdl/gitcl/nyancat/src:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/werdl/.cargo/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/werdl/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin:/home/werdl/Downloads/FileZilla3/bin:/home/werdl/Downloads/FileZilla3/bin:~/werdl/coding/asm/clr
+export PATH="$PATH:/home/werdl/cool-retro-term/"
+export PATH="$HOME/opt/cross/bin:$PATH"
+alias net="cd ~;./net.sh"
+alias info="konsole -e \"tmuxinator sys\""
+alias os="cd ~/coding/os/bare;code ."alias tetris="tetris-thefenriswolf.tetris"
