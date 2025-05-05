@@ -183,33 +183,6 @@
 	"tooltip-format": "{used} used out of {total} on {path} ({percentage_used}%)",
 },
 
-"hyprland/language": {
-	"format": "Lang: {}",
-	"format-en": "US",
-	"format-tr": "Korea",
-	"keyboard-name": "at-translated-set-2-keyboard",
-	"on-click": "hyprctl switchxkblayout $SET_KB next"
-},
-
-"hyprland/submap": {
-	"format": "<span style=\"italic\">  {}</span>", // Icon: expand-arrows-alt
-	"tooltip": false,
-},
-
-"hyprland/window": {
-	"format": "{}",
-	"max-length": 25,
-	"separate-outputs": true,
-	"offscreen-css": true,
-	"offscreen-css-text": "(inactive)",
-	"rewrite": {
-		"(.*) — Mozilla Firefox": " $1",
-		"(.*) - fish": "> [$1]",
-		"(.*) - zsh": "> [$1]",
-		"(.*) - $term": "> [$1]",
-	},
-},
-
 "idle_inhibitor": {
 	"tooltip": true,
 	"tooltip-format-activated": "Idle_inhibitor active",
