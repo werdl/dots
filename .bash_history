@@ -305,3 +305,8 @@ nvim ./
 nvim ~/.config/nvim
 nvim ./
 nvim ~/.config/nvim
+[
+'['
+'\['
+'\\['
+\[
