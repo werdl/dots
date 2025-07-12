@@ -47,6 +47,7 @@ output * bg /home/werdl/Pictures/background.png fill
 ### Input configuration
 #
 # Example configuration:
+#
 #   input "2:14:SynPS/2_Synaptics_TouchPad" {
 #       dwt enabled
 #       tap enabled
@@ -63,7 +64,7 @@ output * bg /home/werdl/Pictures/background.png fill
 
     # Variables
 set $mod Mod4
-set $term foot
+set $term kitty
 set $files thunar
 set $scriptsDir ~/.config/hypr/scripts
 set $userScripts ~/.config/hypr/UserScripts
@@ -78,9 +79,9 @@ bindsym $mod+a exec pkill rofi || ags -t 'overview'
 bindsym $mod+Return exec $term
 bindsym $mod+e exec $files
 bindsym $mod+l exec ~/.config/sway/lock.sh
-bindsym $mod+m exec $term btop
-bindsym $mod+v exec $term cava
-bindsym $mod+p exec $term bash
+bindsym $mod+m exec $term -e btop
+bindsym $mod+v exec $term -e cava
+bindsym $mod+p exec $term -e bash
 bindsym $mod+Ctrl+Shift+Alt+S exec sudo shutdown now
 # Window management
 bindsym $mod+Shift+f fullscreen
@@ -233,40 +234,29 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioNext exec playerctl next
     bindsym --locked XF86AudioPrev exec playerctl previous
     # Special keys to adjust brightness via brightnessctl
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl s 5%+
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     # Special key to take a screenshot with grim
-    bindsym Print exec grim -g $(slurp)
+    bindsym Print exec grim
 
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
+#bar {
+#    position top
+#
+#    # When the status_command prints a new line to stdout, swaybar updates.
+#    # The default just shows the current date and time.
+#    status_command ~/.config/sway/status.sh
+#
+#    colors {
+#        statusline #ffffff
+#        background #323232
+#        inactive_workspace #32323200 #32323200 #5c5c5c
+#    }
+#}
 
-    # When the status_command prints a new line to stdout,swaybar updates.
-    # The default just shows the current date and time.
-    status_command while /home/werdl/.config/sway/bar.sh; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #33553388
-        inactive_workspace #333333CC #333333CC #5c5c5c
-    }
-}
-
-client.focused #285577FF #285577FF #FFFFFF
-client.focused_inactive #33553388 #33553388 #FFFFFF
-
-font Px437 IBM VGA 8x16 14
-
-exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec pipewire
+exec waybar
 
 include @sysconfdir@/sway/config.d/*<
-
-gaps inner 8
-
-bindsym $mod+Alt+Left exec swaymsg gaps inner all minus 5
-bindsym $mod+Alt+Right exec swaymsg gaps inner all plus 5
