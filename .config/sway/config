@@ -69,18 +69,20 @@ set $scriptsDir ~/.config/hypr/scripts
 set $userScripts ~/.config/hypr/UserScripts
 set $editor /usr/bin/nvim
 set $browser /usr/bin/librewolf
+set $notes /usr/bin/xournalpp
 
 # Application launchers
 bindsym $mod+d exec pkill rofi || rofi -show drun -modi drun,filebrowser,run,window
 bindsym $mod+b exec $browser
 bindsym $mod+t exec $browser --private-window
 bindsym $mod+a exec pkill rofi || ags -t 'overview'
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec /usr/bin/foot
 bindsym $mod+e exec $files
 bindsym $mod+l exec ~/.config/sway/lock.sh
 bindsym $mod+m exec $term btop
 bindsym $mod+v exec $term cava
 bindsym $mod+p exec $term bash
+bindsym $mod+x exec $notes
 bindsym $mod+Ctrl+Shift+Alt+S exec sudo shutdown now
 # Window management
 bindsym $mod+Shift+f fullscreen
@@ -236,7 +238,7 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl s 5%+
     # Special key to take a screenshot with grim
-    bindsym Print exec grim -g $(slurp)
+    bindsym Print exec /home/werdl/.config/sway/screenie.sh
 
 #
 # Status Bar:
@@ -247,7 +249,7 @@ bar {
 
     # When the status_command prints a new line to stdout,swaybar updates.
     # The default just shows the current date and time.
-    status_command while /home/werdl/.config/sway/bar.sh; do sleep 1; done
+    status_command while /home/werdl/.config/sway/bar.sh; do sleep 0.4; done 
 
     colors {
         statusline #ffffff
@@ -262,10 +264,10 @@ client.focused_inactive #33553388 #33553388 #FFFFFF
 font Px437 IBM VGA 8x16 14
 
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec pipewire
+exec /usr/bin/kdeconnectd 
 
 include @sysconfdir@/sway/config.d/*<
-
+exec pipewire
 gaps inner 8
 
 bindsym $mod+Alt+Left exec swaymsg gaps inner all minus 5
