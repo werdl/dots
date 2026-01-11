@@ -280,7 +280,7 @@ font Px437 IBM VGA 8x16 14
 
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec /usr/bin/kdeconnectd
-exec_always python3 /home/werdl/coding/rpc-pipewire.py &
+exec python3 /home/werdl/coding/rpc-pipewire.py &
 
 include @sysconfdir@/sway/config.d/*<
 exec pipewire
