@@ -1,9 +1,9 @@
 # If you come from bash you might have to change your $PATH.110
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# export PATH=/usr/bin/zig:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
+export MANPAGER='nvim +Man!'
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -106,6 +106,7 @@ export LANG=en_GB.UTF-8
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
+export PATH=/usr/bin/zig:$PATH
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx

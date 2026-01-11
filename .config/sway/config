@@ -19,7 +19,6 @@ input type:keyboard {
     repeat_rate 50
 }
 input * xkb_layout gb
-
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
@@ -46,13 +45,17 @@ output * bg /home/werdl/Pictures/background.png fill
 
 ### Input configuration
 #
-# Example configuration:
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
+input "1739:31251:SYNA2393:00_06CB:7A13_Touchpad" {
+    dwt enabled
+    tap enabled
+    middle_emulation enabled
+    tap_button_map lrm
+}
+
+bindgesture swipe:3:left workspace prev
+bindgesture swipe:3:right workspace next
+bindgesture swipe:3:down exec nwggrid
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -73,6 +76,7 @@ set $notes /usr/bin/xournalpp
 
 # Application launchers
 bindsym $mod+d exec pkill rofi || rofi -show drun -modi drun,filebrowser,run,window
+bindsym Menu exec pkill rofi || rofi -show drun -modi drun,filebrowser,run,window
 bindsym $mod+b exec $browser
 bindsym $mod+t exec $browser --private-window
 bindsym $mod+a exec pkill rofi || ags -t 'overview'
@@ -81,15 +85,14 @@ bindsym $mod+e exec $files
 bindsym $mod+l exec ~/.config/sway/lock.sh
 bindsym $mod+m exec $term btop
 bindsym $mod+v exec $term cava
-bindsym $mod+p exec $term bash
+bindsym $mod+p exec nwg-displays
 bindsym $mod+x exec $notes
 bindsym $mod+Ctrl+Shift+Alt+S exec sudo shutdown now
 # Window management
 bindsym $mod+Shift+f fullscreen
 bindsym $mod+Ctrl+f fullscreen enable 
 bindsym $mod+space floating toggle
-bindsym $mod+c exec /opt/vscodium-bin/bin/codium
-
+bindsym $mod+n exec networkmanager_dmenu
 # kill focused window
 bindsym $mod+q kill
 
@@ -227,16 +230,24 @@ bindsym $mod+r mode "resize"
 # Utilities:
 #
     # Special keys to adjust volume via PulseAudio
-    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
-    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
-    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMute exec wpctl set-mute \@DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+
+    bindsym --locked Ctrl+XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+
+    bindsym --locked Ctrl+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-
+
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
-    bindsym --locked XF86AudioPlay exec playerctl play-pause
-    bindsym --locked XF86AudioNext exec playerctl next
-    bindsym --locked XF86AudioPrev exec playerctl previous
+    bindsym --locked XF86AudioPlay exec playerctl play-pause -p $(/home/werdl/.config/sway/get_active.sh)
+    bindsym --locked XF86AudioNext exec playerctl next -p $(/home/werdl/.config/sway/get_active.sh)
+    bindsym --locked XF86AudioPrev exec playerctl previous -p $(/home/werdl/.config/sway/get_active.sh)
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl s 5%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl s 5%+
+    bindsym --locked Ctrl+XF86MonBrightnessUp exec brightnessctl s 1%+
+    bindsym --locked Ctrl+XF86MonBrightnessDown exec brightnessctl s 1%-
+    bindsym --locked Ctrl+Alt+XF86MonBrightnessDown exec brightnessctl s 4
+    bindsym --locked XF86Display exec nwg-displays
     # Special key to take a screenshot with grim
     bindsym Print exec /home/werdl/.config/sway/screenie.sh
 
@@ -249,7 +260,7 @@ bar {
 
     # When the status_command prints a new line to stdout,swaybar updates.
     # The default just shows the current date and time.
-    status_command while /home/werdl/.config/sway/bar.sh; do sleep 0.4; done 
+    status_command python3 /home/werdl/.config/sway/bar.py
 
     colors {
         statusline #ffffff
@@ -258,13 +269,18 @@ bar {
     }
 }
 
+for_window [app_id="floating"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [app_id="pavucontrol"] floating enable, resize set 800 600
+
 client.focused #285577FF #285577FF #FFFFFF
 client.focused_inactive #33553388 #33553388 #FFFFFF
 
 font Px437 IBM VGA 8x16 14
 
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec /usr/bin/kdeconnectd 
+exec /usr/bin/kdeconnectd
+exec_always python3 /home/werdl/coding/rpc-pipewire.py &
 
 include @sysconfdir@/sway/config.d/*<
 exec pipewire
