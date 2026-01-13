@@ -51,22 +51,23 @@ img = None
 while True:
     prev_song = title
 
-    last_item = subprocess.check_output(["playerctl", "-l"]).decode("utf-8").strip().split("\n")[-1]
+    with open("/home/werdl/.config/sway/playerctl-lockfile") as f:
+        last_item = f.read().strip()
+        print(last_item)
 
     try:
         artist, title = subprocess.check_output(
             ["playerctl", "metadata", "--format", "{{ artist }}%{{ title }}", "-p", last_item]
         ).decode("utf-8").strip().split("%", 1)
     except subprocess.CalledProcessError:
-        title = "Idle"
-
+        title = "Idle" 
     try:
         position = subprocess.check_output(
             ["playerctl", "position", "-p", last_item]
         ).decode("utf-8").strip()
+        print(position)
     except subprocess.CalledProcessError:
         position = "0"
-
     calculated_start = int(time.time() - float(position))
 
     if artist=="":
@@ -98,10 +99,10 @@ while True:
             activity_type=ActivityType.LISTENING, 
             start=calculated_start,
             large_image=img if img else "default_image",
-            large_text=artist,
+            large_text=title,
             small_image=artist_thumb if artist_thumb else "default_image",
-            small_text=title,
-            name=f"{title} on Pipewire"
+            small_text=artist,
+            name=f"{title} via Pipewire"
         )
 
     time.sleep(15)
