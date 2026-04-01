@@ -1,2 +1,2 @@
 #!/bin/sh
-swaylock --font "JetBrains Mono"  --image /home/werdl/Pictures/background.png --indicator-radius 300 --indicator-thickness 20
+gtklock -x /home/werdl/.config/gtklock/layout.ui

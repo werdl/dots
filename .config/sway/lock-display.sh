@@ -1,0 +1,1 @@
+gtkclock --format "%H:%M"

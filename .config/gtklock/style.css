@@ -1,0 +1,43 @@
+window {
+   background-image: url("/home/werdl/Pictures/bg_lock_dark.png");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-color: black;
+   font-family: "Px437 IBM VGA 8x16";
+}
+
+label {
+    font-size: 28px;
+}
+
+#clock-label {
+    font-size: 512px;
+}
+
+#input-field {
+    background-color: transparent;
+    border: none;
+}
+
+#input-field:focus {
+    border: none;
+}
+
+entry {
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 24px;
+}
+
+#unlock-button {
+    background: transparent;
+} 
+
+#error-label {
+    color: red;
+}
+
+#warning-label {
+    color: yellow;
+}

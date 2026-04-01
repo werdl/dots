@@ -22,7 +22,10 @@ input * xkb_layout gb
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-output * bg /home/werdl/Pictures/background.png fill
+    output * bg /home/werdl/Pictures/background.png fill
+
+#output * bg #231643 solid_color
+
 #
 # Example configuration:
 #
@@ -50,6 +53,10 @@ input "1739:31251:SYNA2393:00_06CB:7A13_Touchpad" {
     tap enabled
     middle_emulation enabled
     tap_button_map lrm
+}
+
+input "1118:2083:Microsoft_Microsoft___Classic_IntelliMouse__" {
+    pointer_accel 0.5
 }
 
 bindgesture swipe:3:left workspace prev
@@ -258,14 +265,19 @@ bindsym $mod+r mode "resize"
 bar {
     position top
 
+
     # When the status_command prints a new line to stdout,swaybar updates.
     # The default just shows the current date and time.
     status_command python3 /home/werdl/.config/sway/bar.py
 
     colors {
         statusline #ffffff
-        background #33553388
-        inactive_workspace #333333CC #333333CC #5c5c5c
+        background #231643
+        separator #5c5c5c
+        inactive_workspace #231643 #231643 #5c5c5c
+        focused_workspace #322563 #322563 #ffffff
+        urgent_workspace #ff0000 #ff0000 #ffffff
+
     }
 }
 
@@ -273,14 +285,19 @@ for_window [app_id="floating"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
 for_window [app_id="pavucontrol"] floating enable, resize set 800 600
 
-client.focused #285577FF #285577FF #FFFFFF
-client.focused_inactive #33553388 #33553388 #FFFFFF
+client.focused #322563 #322563 #FFFFFF
+client.focused_inactive #231643 #231643 #acacac
 
 font Px437 IBM VGA 8x16 14
 
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec /usr/bin/kdeconnectd
+exec fcitx5
 exec python3 /home/werdl/coding/rpc-pipewire.py &
+exec_always xdg-desktop-portal-wlr
+exec_always xdg-desktop-portal
+
+exec_always env QT_QPA_PLATFORM=wayland flameshot
 
 include @sysconfdir@/sway/config.d/*<
 exec pipewire

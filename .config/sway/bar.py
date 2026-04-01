@@ -72,7 +72,7 @@ def handle_click(evt):
             fastfetch_opened = False
             subprocess.Popen(["pkill", "-f", "foot --app-id floating"])
 
-    elif name in ["cpu", "temp", "ram"] and btn==1:
+    elif name in ["cpu", "temp", "ram", "avg"] and btn==1:
         global btop_opened
         if not btop_opened:
             btop_opened = True
@@ -104,6 +104,17 @@ while True:
         dt=t2-t1; di=i2-i1
         cpu=f"{(100*(dt-di)/dt):.1f}%"
 
+        mhz = 0
+        num_cpus = 0
+
+        with open("/proc/cpuinfo") as f:
+            for line in f:
+                if line.startswith("cpu MHz"):
+                    mhz += float(line.split(":")[1].strip())
+                    num_cpus += 1
+
+        avg = f"{(mhz/num_cpus):.0f}MHz"
+
         # temp
         thermals = sh("ls /sys/class/thermal/thermal_zone*/temp").splitlines()
         temps = []
@@ -134,6 +145,7 @@ while True:
             {"name":"host","full_text":host},
             {"name":"bat","full_text":f"{ac}, {pct}"},
             {"name":"cpu","full_text":cpu},
+            {"name":"avg","full_text":avg},
             {"name":"temp","full_text":f"{temp:.1f}°C"},
             {"name":"ram","full_text":ram},
             {"name":"audio","full_text":f"{audio}%, mute {mute}"},
