@@ -31,7 +31,7 @@ print(get_artist_thumbnail("metallica"))
 
 title = ""
 
-import requests, re
+import requests, re, os
 
 def clean_title(s: str) -> str:
     s = re.sub(r'\([^)]*\)|\[[^\]]*\]', '', s)
@@ -49,18 +49,31 @@ def show_thumb(name: str):
 img = None
 
 while True:
+    time.sleep(1)
     prev_song = title
+
+    if not os.path.exists("/home/werdl/.config/sway/playerctl-lockfile"):
+        # remove activity if no player is running
+        RPC.clear()
 
     with open("/home/werdl/.config/sway/playerctl-lockfile") as f:
         last_item = f.read().strip()
         print(last_item)
 
     try:
-        artist, title = subprocess.check_output(
-            ["playerctl", "metadata", "--format", "{{ artist }}%{{ title }}", "-p", last_item]
-        ).decode("utf-8").strip().split("%", 1)
+        length, artist, title, album, img = subprocess.check_output(
+            ["playerctl", "metadata", "--format", "{{ mpris:length }}%{{ artist }}%{{ title }}%{{ album }}%{{ mpris:artUrl }}", "-p", last_item]
+        ).decode("utf-8").strip().split("%", 5)
     except subprocess.CalledProcessError:
         title = "Idle" 
+
+    try:
+        url = subprocess.check_output(
+            ["playerctl", "metadata", "--format", "{{ xesam:url }}", "-p", last_item]
+        ).decode("utf-8").strip()
+    except subprocess.CalledProcessError:
+        url = ""
+
     try:
         position = subprocess.check_output(
             ["playerctl", "position", "-p", last_item]
@@ -68,18 +81,27 @@ while True:
         print(position)
     except subprocess.CalledProcessError:
         position = "0"
+    
     calculated_start = int(time.time() - float(position))
+    try:    
+        calculated_end = calculated_start + int(float(length)/1e6)
+    except ValueError:
+        calculated_end = None
+
+    if title==prev_song:
+        continue
+
+    print("new song baby")
 
     if artist=="":
         state = ActivityType.WATCHING # Set activity type to WATCHING if no artist is found
-
-        img = show_thumb(title)
 
         RPC.update(
             state=title, 
             activity_type=ActivityType.WATCHING, 
             start=calculated_start,
-            large_image=img if img else "default_image",
+            end=calculated_end,
+            large_image=img.replace("file://", "") if img else "default_image",
             large_text=title,
             name=f"{title} on Pipewire"
         )
@@ -88,22 +110,25 @@ while True:
 
 
         if title != prev_song:
-            img = get_thumbnail(title, artist)
-        artist_thumb = get_artist_thumbnail(artist)
+            generated_img = get_thumbnail(title, artist)
+            
+            if not generated_img:
+                generated_img = img.replace("file://", "") if img else "default_image"
+
+            artist_thumb = get_artist_thumbnail(artist)
 
 
+        album = album if album else title
 
         RPC.update(
-            state=title, 
-            details=artist, 
+            state=artist, 
+            name=title, 
+            #details=album,
             activity_type=ActivityType.LISTENING, 
             start=calculated_start,
-            large_image=img if img else "default_image",
-            large_text=title,
+            end=calculated_end,
+            large_image=generated_img,
+            large_text=album,
             small_image=artist_thumb if artist_thumb else "default_image",
             small_text=artist,
-            name=f"{title} via Pipewire"
         )
-
-    time.sleep(15)
-

@@ -18,7 +18,7 @@ Name="Group 1"
 # Layout
 Default Layout=gb
 # Default Input Method
-DefaultIM=keyboard-cn
+DefaultIM=pinyin
 
 [Groups/1/Items/0]
 # Name
@@ -28,19 +28,7 @@ Layout=
 
 [Groups/1/Items/1]
 # Name
-Name=rime
-# Layout
-Layout=
-
-[Groups/1/Items/2]
-# Name
-Name=keyboard-cn-altgr-pinyin
-# Layout
-Layout=
-
-[Groups/1/Items/3]
-# Name
-Name=keyboard-cn
+Name=pinyin
 # Layout
 Layout=
 

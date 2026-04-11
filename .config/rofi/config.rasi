@@ -21,4 +21,8 @@
 
 //@theme "~/.config/rofi/themes/KooL_style-9.rasi"
 
-@theme "/usr/share/rofi/themes/Monokai.rasi"
+@theme "/home/werdl/.config/rofi/Monokai.rasi"
+
+* {
+    font: "Px437 IBM VGA 8x16 20";
+}
