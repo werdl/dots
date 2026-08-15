@@ -27,8 +27,6 @@ CLIENT_ID = "1430932134016581752"
 RPC = Presence(CLIENT_ID)
 RPC.connect()
 
-print(get_artist_thumbnail("metallica"))
-
 title = ""
 
 import requests, re, os
@@ -55,15 +53,18 @@ while True:
     if not os.path.exists("/home/werdl/.config/sway/playerctl-lockfile"):
         # remove activity if no player is running
         RPC.clear()
+        continue
 
+ 
     with open("/home/werdl/.config/sway/playerctl-lockfile") as f:
         last_item = f.read().strip()
-        print(last_item)
 
     try:
         length, artist, title, album, img = subprocess.check_output(
             ["playerctl", "metadata", "--format", "{{ mpris:length }}%{{ artist }}%{{ title }}%{{ album }}%{{ mpris:artUrl }}", "-p", last_item]
-        ).decode("utf-8").strip().split("%", 5)
+        ).decode("utf-8").strip().split("%", 4)
+        if len(album) == 1:
+            album += "  "
     except subprocess.CalledProcessError:
         title = "Idle" 
 
@@ -78,7 +79,6 @@ while True:
         position = subprocess.check_output(
             ["playerctl", "position", "-p", last_item]
         ).decode("utf-8").strip()
-        print(position)
     except subprocess.CalledProcessError:
         position = "0"
     
@@ -89,9 +89,9 @@ while True:
         calculated_end = None
 
     if title==prev_song:
-        continue
-
-    print("new song baby")
+        time.sleep(10) # Sleep longer if the song hasn't changed to reduce CPU usage, but don't sleep forever in case new metadata has become available
+    else:
+        print(f"Now playing: {artist} - {title} [{album}]")
 
     if artist=="":
         state = ActivityType.WATCHING # Set activity type to WATCHING if no artist is found

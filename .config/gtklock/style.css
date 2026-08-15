@@ -1,9 +1,8 @@
 window {
-   background-image: url("/home/werdl/Pictures/bg_lock_dark.png");
+   background-image: url("/home/werdl/Pictures/train.jpg");
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
-   background-color: black;
    font-family: "Px437 IBM VGA 8x16";
 }
 
@@ -32,6 +31,7 @@ entry {
 
 #unlock-button {
     background: transparent;
+    border: none;
 } 
 
 #error-label {
