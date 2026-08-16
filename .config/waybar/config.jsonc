@@ -1,0 +1,54 @@
+{
+    "layer": "top",
+    "spacing": 0,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["wlr/taskbar"],
+    "modules-right": ["cpu#usage", "custom/sep", "cpu#freq","custom/sep", "custom/temperature", "custom/sep", "memory", "custom/sep", "wireplumber", "custom/sep", "network", "custom/sep", "clock"],
+    "sway/window": {
+        "max-length": 50
+    },
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "clock": {
+        "format": "{:%H:%M:%S %d/%m/%Y}",
+        "interval": 1
+    },
+    "cpu#usage": {
+        "format": "{usage:02}%",
+        "interval": 1
+    },
+    "cpu#freq": {
+        "format": "{avg_frequency:.2f}GHz",
+        "interval": 1
+    },
+    "network": {
+        "format": "{ifname}: {essid}",
+        "format-disconnected": "{ifname}: Disconnected",
+        "format-disabled": "{ifname}: rfkill Disabled",
+        "format-linked": "{ifname}: {essid} No IP"
+
+    },
+    "wireplumber": {
+        "format": "{volume}%",
+        "format-muted": "{volume}% Muted",
+    },
+    "memory": {
+        "format": "{used:05.2f}Gi/{avail:05.2f}Gi"
+    },
+    "custom/temperature": {
+        "exec": "~/.config/waybar/temp.sh",
+        "interval": 1,
+        "format": "{}"
+    },
+    "wlr/taskbar": {
+        "on-click": "minimize-raise",
+        "tooltip": true,
+        "tooltip-format": "{name}"
+    },
+    "custom/sep": {
+        "format": "|",
+        "tooltip": false
+    }
+}

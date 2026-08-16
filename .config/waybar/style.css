@@ -1,0 +1,39 @@
+* {
+    font-family: "Px437 IBM VGA 8x16";
+    font-size: 18px;
+    background: transparent;
+}
+
+#clock {
+    padding-right: 6px;
+}
+
+.module {
+    padding: 0 3px;
+}
+
+#custom-sep {
+    font-family: "Open Sans", sans-serif;
+    padding-bottom: 4px;
+    color: #5c5c5c;
+}
+
+#workspaces,
+#mode {
+    margin: 0;
+    padding: 0 0;
+}
+
+#workspaces button {
+    padding: 0 3px;
+    margin: 0;
+}
+
+#workspaces button {
+    color: #5c5c5c;
+    border: none;
+}
+
+#workspaces button.focused {
+    color: #ffffff;
+}
