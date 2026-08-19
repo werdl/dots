@@ -1,0 +1,72 @@
+* {
+    font: "JetBrains Mono 12";
+
+    bg:         #111111;
+    bg-alt:     #1a1a1a;
+    fg:         #e0e0e0;
+    fg-dim:     #888888;
+    accent:     #ffffff;
+
+    border:     #444444;
+}
+
+window {
+    width: 40%;
+    border: 2px;
+    border-color: @border;
+    background-color: @bg;
+}
+
+mainbox {
+    children: [inputbar, listview];
+    spacing: 10px;
+    padding: 12px;
+    background-color: transparent;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border: 0;
+    padding: 10px;
+}
+
+prompt {
+    text-color: @fg-dim;
+}
+
+entry {
+    text-color: @fg;
+    placeholder: "Search…";
+    placeholder-color: @fg-dim;
+}
+
+listview {
+    lines: 10;
+    columns: 1;
+    spacing: 4px;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px;
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected {
+    background-color: @fg;
+    text-color: @bg;
+}
+
+element-text {
+    text-color: inherit;
+}
+
+element-icon {
+    size: 24px;
+}
+
+scrollbar {
+    handle-color: @fg-dim;
+    handle-width: 2px;
+}
